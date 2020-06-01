@@ -6,6 +6,8 @@ import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
 import Dashboard from "../views/Dashboard.vue"
 
+import ClientList from "../views/Client/ClientList.vue"
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -30,6 +32,12 @@ const routes = [
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
+    meta: { authOnly: true }
+  },
+  {
+    path: "/clients",
+    name: "ClientList",
+    component: ClientList,
     meta: { authOnly: true }
   }
 ]

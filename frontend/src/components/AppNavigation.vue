@@ -28,13 +28,14 @@
       <v-btn :to="{ name: 'Login' }" v-if="!isLoggedIn" text class="hidden-sm-and-down">Login</v-btn>
       <v-btn :to="{ name: 'Register' }" v-if="!isLoggedIn" text class="hidden-sm-and-down">Register</v-btn>
       <v-btn :to="{ name: 'Dashboard' }" v-if="isLoggedIn" text class="hidden-sm-and-down">Dashboard</v-btn>
+      <v-btn :to="{ name: 'ClientList' }" v-if="isLoggedIn" text class="hidden-sm-and-down">Clients</v-btn>
       <v-btn @click="logout" v-if="isLoggedIn" text class="hidden-sm-and-down">Logout</v-btn>
     </v-app-bar>
   </span>
 </template>
 
 <script>
-import User from "../apis/User";
+import User from "../apis/User"
 
 export default {
   name: "AppNavigation",
@@ -42,26 +43,26 @@ export default {
     return {
       drawer: false,
       isLoggedIn: false
-    };
+    }
   },
   mounted() {
     this.$root.$on("login", () => {
-      this.isLoggedIn = true;
-    });
+      this.isLoggedIn = true
+    })
 
-    this.isLoggedIn = !!localStorage.getItem("auth");
+    this.isLoggedIn = !!localStorage.getItem("auth")
   },
 
   methods: {
     logout() {
       User.logout().then(() => {
-        localStorage.removeItem("auth");
-        this.isLoggedIn = false;
-        this.$router.push({ name: "Home" });
-      });
+        localStorage.removeItem("auth")
+        this.isLoggedIn = false
+        this.$router.push({ name: "Home" })
+      })
     }
   }
-};
+}
 </script>
 
 <style scoped></style>
