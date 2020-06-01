@@ -11,9 +11,9 @@
             </v-btn>
           </v-toolbar>
           <v-card-title>
-            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
+            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details clearable></v-text-field>
           </v-card-title>
-          <v-data-table :headers="headers" :items="items" :search="search" hide-default-footer>
+          <v-data-table :headers="headers" :items="items" :search="search">
             <template v-slot:item.actions="{ item }">
               <v-btn class="" tile outlined color="primary" small @click="editItem(item)"> <v-icon left>mdi-pencil-outline</v-icon> Edit </v-btn>
               <v-btn class="ml-2" tile outlined color="red" small @click="deleteItem(item)">
