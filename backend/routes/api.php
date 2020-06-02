@@ -23,3 +23,6 @@ Route::post('/login', 'UserController@login');
 Route::post('/logout', 'UserController@logout');
 
 Route::apiResource('client', 'ClientController');
+Route::apiResource('invoice', 'InvoiceController');
+Route::apiResource('transaction', 'TransactionController');
+Route::get('/invoice/{invoice}/transaction', 'InvoiceController@transactions');

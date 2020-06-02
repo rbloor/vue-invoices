@@ -3,9 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Invoice as InvoiceResource;
 
-class Client extends JsonResource
+class Transaction extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,10 +16,10 @@ class Client extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'contact_name' => $this->contact_name,
-            'contact_email' => $this->contact_name,
-            'invoices' => InvoiceResource::collection($this->invoices)
+            'quantity' => $this->quantity,
+            'unit' => $this->unit,
+            'description' => $this->description,
+            'unit_cost' => $this->unit_cost,
             //'created_at' => $this->created_at,
             //'updated_at' => $this->updated_at,
         ];
