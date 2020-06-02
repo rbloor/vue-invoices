@@ -64,10 +64,10 @@ class ClientController extends Controller
         $request->validate([
             'name' => ['required'],
             'contact_name' => ['required'],
-            'contact_email' => ['required', 'email', 'unique:clients']
+            'contact_email' => ['required', 'email']
         ]);
         
-        return Client::findOrFail($id)->update($request->validated());
+        return Client::findOrFail($id)->update($request->all());
     }
 
     /**

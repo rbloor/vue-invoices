@@ -6,19 +6,15 @@
           <v-toolbar dark flat src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
             <v-toolbar-title>Client list</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn icon>
-              <v-icon medium>mdi-plus-circle</v-icon>
-            </v-btn>
+            <add-client-modal v-on:add:item="added($event)"></add-client-modal>
           </v-toolbar>
           <v-card-title>
             <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details clearable></v-text-field>
           </v-card-title>
           <v-data-table :headers="headers" :items="items" :search="search">
             <template v-slot:item.actions="{ item }">
-              <v-btn class="" tile outlined color="primary" small @click="editItem(item)"> <v-icon left>mdi-pencil-outline</v-icon> Edit </v-btn>
-              <v-btn class="ml-2" tile outlined color="red" small @click="deleteItem(item)">
-                <v-icon left>mdi-trash-can-outline</v-icon> Delete
-              </v-btn>
+              <update-client-modal v-bind:item="item" v-on:update:item="updated($event, item)"></update-client-modal>
+              <v-icon class="ml-2" medium color="red" @click="deleted(item)">mdi-trash-can-outline</v-icon>
             </template>
           </v-data-table>
         </v-card>
@@ -29,30 +25,53 @@
 
 <script>
 import Client from "@/apis/Client"
+import AddClientModal from "@/components/AddClientModal"
+import UpdateClientModal from "@/components/UpdateClientModal"
 
 export default {
+  components: {
+    AddClientModal,
+    UpdateClientModal
+  },
   data() {
     return {
-      loading: true,
-      search: "",
       items: [],
+      search: "",
+      loading: true,
       headers: [
-        {
-          text: "Name",
-          align: "start",
-          value: "name"
-        },
+        { text: "Name", align: "start", value: "name" },
         { text: "Contact name", value: "contact_name" },
         { text: "Contact email", value: "contact_email" },
         { text: "Actions", sortable: false, filerable: false, value: "actions" }
       ]
     }
   },
-  created() {
+  mounted() {
     Client.all().then((response) => {
       this.items = response.data.data
       this.loading = false
     })
+  },
+  methods: {
+    added(item) {
+      this.items.push(item)
+    },
+    updated(item, oldItem) {
+      let index = this.items.indexOf(oldItem)
+      Object.assign(this.items[index], item)
+    },
+    deleted(item) {
+      Client.delete(item.id)
+        .then(() => {
+          const index = this.items.indexOf(item)
+          confirm("Are you sure you want to delete this item?") && this.items.splice(index, 1)
+        })
+        .catch((error) => {
+          if (error.response.status === 422) {
+            this.errors = error.response.data.errors
+          }
+        })
+    }
   }
 }
 </script>

@@ -12,7 +12,7 @@ export default {
 
   async create(form) {
     await Csrf.getCookie()
-    return Api.post("/client/store", form)
+    return Api.post("/client", form)
   },
 
   async update(id, form) {
