@@ -19,7 +19,7 @@ class Client extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'contact_name' => $this->contact_name,
-            'contact_email' => $this->contact_name,
+            'contact_email' => $this->contact_email,
             'invoices' => InvoiceResource::collection($this->invoices)
             //'created_at' => $this->created_at,
             //'updated_at' => $this->updated_at,
