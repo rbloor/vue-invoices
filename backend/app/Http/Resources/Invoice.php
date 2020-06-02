@@ -22,6 +22,8 @@ class Invoice extends JsonResource
             'is_paid' => $this->is_paid,
             'is_sent' => $this->is_sent,
             'client' => $this->client,
+            'status' => $this->status,
+            'total' => $this->total,
             'transactions' => TransactionResource::collection($this->transactions)
             //'created_at' => $this->created_at,
             //'updated_at' => $this->updated_at,
