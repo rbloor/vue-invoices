@@ -29,6 +29,7 @@
       <v-btn :to="{ name: 'Register' }" v-if="!isLoggedIn" text class="hidden-sm-and-down">Register</v-btn>
       <v-btn :to="{ name: 'Dashboard' }" v-if="isLoggedIn" text class="hidden-sm-and-down">Dashboard</v-btn>
       <v-btn :to="{ name: 'ClientList' }" v-if="isLoggedIn" text class="hidden-sm-and-down">Clients</v-btn>
+      <v-btn :to="{ name: 'InvoiceList' }" v-if="isLoggedIn" text class="hidden-sm-and-down">Invoices</v-btn>
       <v-btn @click="logout" v-if="isLoggedIn" text class="hidden-sm-and-down">Logout</v-btn>
     </v-app-bar>
   </span>

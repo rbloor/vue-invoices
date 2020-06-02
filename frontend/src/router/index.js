@@ -6,7 +6,8 @@ import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
 import Dashboard from "../views/Dashboard.vue"
 
-import ClientList from "../views/Client/ClientList.vue"
+import ClientList from "../views/ClientList.vue"
+import InvoiceList from "../views/InvoiceList.vue"
 
 Vue.use(VueRouter)
 
@@ -38,6 +39,12 @@ const routes = [
     path: "/clients",
     name: "ClientList",
     component: ClientList,
+    meta: { authOnly: true }
+  },
+  {
+    path: "/invoices",
+    name: "InvoiceList",
+    component: InvoiceList,
     meta: { authOnly: true }
   }
 ]
