@@ -62,16 +62,17 @@ export default {
       Object.assign(this.items[index], item)
     },
     deleted(item) {
-      Invoice.delete(item.id)
-        .then(() => {
-          const index = this.items.indexOf(item)
-          confirm("Are you sure you want to delete this item?") && this.items.splice(index, 1)
-        })
-        .catch((error) => {
-          if (error.response.status === 422) {
-            this.errors = error.response.data.errors
-          }
-        })
+      const index = this.items.indexOf(item)
+      confirm("Are you sure you want to delete this item?") &&
+        Invoice.delete(item.id)
+          .then(() => {
+            this.items.splice(index, 1)
+          })
+          .catch((error) => {
+            if (error.response.status === 422) {
+              this.errors = error.response.data.errors
+            }
+          })
     }
   }
 }
