@@ -41,8 +41,8 @@ export default {
       headers: [
         { text: "Reference", align: "start", value: "reference" },
         { text: "Client", value: "client.name" },
-        { text: "Sent", value: "is_sent" },
-        { text: "Paid", value: "is_paid" },
+        { text: "Status", value: "status" },
+        { text: "Total", value: "total" },
         { text: "Actions", sortable: false, filerable: false, value: "actions" }
       ]
     }

@@ -18,7 +18,7 @@ class CreateInvoicesTable extends Migration
             $table->string('reference')->unique();
             $table->boolean('is_paid')->default(0);
             $table->boolean('is_sent')->default(0);
-            $table->foreignId('client_id')->constrained('clients');
+            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
             $table->timestamps();
         });
     }

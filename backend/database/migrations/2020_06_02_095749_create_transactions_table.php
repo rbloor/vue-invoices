@@ -19,7 +19,7 @@ class CreateTransactionsTable extends Migration
             $table->enum('unit', ['hour', 'day', 'service', 'project']);
             $table->text('description');
             $table->decimal('unit_cost', 8, 2);
-            $table->foreignId('invoice_id')->constrained('invoices');
+            $table->foreignId('invoice_id')->constrained('invoices')->onDelete('cascade');
             $table->timestamps();
         });
     }
