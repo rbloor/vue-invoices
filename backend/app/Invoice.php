@@ -30,7 +30,9 @@ class Invoice extends Model
 
     public function getTotalAttribute()
     {
-        return round($this->transactions->sum('quantity') * $this->transactions->sum('unit_cost'), 2);
+        return round($this->transactions->sum(function($transaction) {
+            return $transaction->quantity * $transaction->unit_cost;
+          }), 2);
     }
 
 }
