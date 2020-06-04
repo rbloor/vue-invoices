@@ -1,16 +1,15 @@
 <template>
-  <v-dialog v-model="dialog" max-width="600px" persistent>
+  <v-dialog v-model="dialog" max-width="600px" persistent @input="open">
     <template v-slot:activator="{ on }">
-      <v-icon v-on="on" medium color="primary">mdi-pencil-outline</v-icon>
+      <v-btn icon v-on="on"><v-icon medium color="primary">mdi-pencil-outline</v-icon></v-btn>
     </template>
     <v-card>
       <v-form>
         <v-card-title class="pt-4 headline">Update client</v-card-title>
         <v-card-text>
-          <v-text-field v-model="item.name" label="Company *" :error-messages="errors.name"></v-text-field>
-          <v-text-field v-model="item.contact_name" label="Name *" :error-messages="errors.contact_name"></v-text-field>
-          <v-text-field v-model="item.contact_email" label="Email *" :error-messages="errors.contact_email"></v-text-field>
-          <small>* indicates required field</small>
+          <v-text-field v-model="form.name" label="Company" :error-messages="errors.name"></v-text-field>
+          <v-text-field v-model="form.contact_name" label="Name" :error-messages="errors.contact_name"></v-text-field>
+          <v-text-field v-model="form.contact_email" label="Email" :error-messages="errors.contact_email"></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -29,20 +28,33 @@ export default {
   props: ["item"],
   data() {
     return {
+      dialog: false,
+      errors: [],
       form: {
         name: "",
         contact_name: "",
         contact_email: ""
       },
-      dialog: false,
-      errors: []
+      default: {
+        name: "",
+        contact_name: "",
+        contact_email: ""
+      }
     }
   },
   methods: {
+    open() {
+      this.form = Object.assign({}, this.item)
+    },
+    close() {
+      this.dialog = false
+      this.errors = []
+      this.form = Object.assign({}, this.default)
+    },
     submit() {
-      Client.update(this.item.id, this.item)
-        .then((data) => {
-          this.$emit("update:item", data.data)
+      Client.update(this.form.id, this.form)
+        .then(() => {
+          this.$emit("update:item")
           this.close()
         })
         .catch((error) => {
@@ -50,10 +62,6 @@ export default {
             this.errors = error.response.data.errors
           }
         })
-    },
-    close() {
-      this.dialog = false
-      this.errors = []
     }
   }
 }

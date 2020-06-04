@@ -8,18 +8,13 @@ class Invoice extends Model
 {
     protected $fillable = [
         'reference', 
-        'is_paid',
-        'is_sent',
+        'status',
         'client_id'
     ];
 
-    protected $casts = [
-        'is_sent' => 'boolean',
-        'is_paid' => 'boolean'
-    ];
+    protected $casts = [];
 
     protected $appends = [
-        'status',
         'total'
     ];
 
@@ -31,11 +26,6 @@ class Invoice extends Model
     public function transactions()
     {
         return $this->hasMany('App\Transaction', 'invoice_id');
-    }
-
-    public function getStatusAttribute()
-    {
-        return $this->is_sent ? 'sent' : ($this->is_paid ? 'paid' : 'draft');
     }
 
     public function getTotalAttribute()

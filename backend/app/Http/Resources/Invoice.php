@@ -19,9 +19,7 @@ class Invoice extends JsonResource
         return [
             'id' => $this->id,
             'reference' => $this->reference,
-            'is_paid' => $this->is_paid,
-            'is_sent' => $this->is_sent,
-            'client' => $this->client,
+            'client' => new ClientResource($this->client),
             'status' => $this->status,
             'total' => $this->total,
             'transactions' => TransactionResource::collection($this->transactions)

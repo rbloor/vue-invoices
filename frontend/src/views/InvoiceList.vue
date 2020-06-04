@@ -6,15 +6,15 @@
           <v-toolbar dark flat src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
             <v-toolbar-title>Invoice list</v-toolbar-title>
             <v-spacer></v-spacer>
-            <add-invoice-modal v-on:add:item="added($event)"></add-invoice-modal>
+            <add-invoice-modal v-on:add:item="added"></add-invoice-modal>
           </v-toolbar>
           <v-card-title>
             <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details clearable></v-text-field>
           </v-card-title>
           <v-data-table :headers="headers" :items="items" :search="search">
             <template v-slot:item.actions="{ item }">
-              <update-invoice-modal v-bind:item="item" v-on:update:item="updated($event, item)"></update-invoice-modal>
-              <v-icon class="ml-2" medium color="red" @click="deleted(item)">mdi-trash-can-outline</v-icon>
+              <update-invoice-modal v-bind:item="item" v-on:update:item="updated"></update-invoice-modal>
+              <v-btn class="ml-2" icon><v-icon medium color="red" @click="deleted(item)">mdi-trash-can-outline</v-icon></v-btn>
             </template>
           </v-data-table>
         </v-card>
@@ -35,9 +35,9 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       items: [],
       search: "",
-      loading: true,
       headers: [
         { text: "Reference", align: "start", value: "reference" },
         { text: "Client", value: "client.name" },
@@ -47,26 +47,26 @@ export default {
       ]
     }
   },
-  mounted() {
-    Invoice.all().then((response) => {
-      this.items = response.data.data
-      this.loading = false
-    })
+  created() {
+    this.init()
   },
   methods: {
-    added(item) {
-      this.items.push(item)
+    init() {
+      Invoice.all().then((response) => {
+        this.items = response.data.data
+      })
     },
-    updated(item, oldItem) {
-      let index = this.items.indexOf(oldItem)
-      Object.assign(this.items[index], item)
+    added() {
+      this.init()
+    },
+    updated() {
+      this.init()
     },
     deleted(item) {
-      const index = this.items.indexOf(item)
       confirm("Are you sure you want to delete this item?") &&
         Invoice.delete(item.id)
           .then(() => {
-            this.items.splice(index, 1)
+            this.init()
           })
           .catch((error) => {
             if (error.response.status === 422) {

@@ -30,18 +30,27 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'reference' => ['required', 'unique:invoices', 'max:16'],
-            'is_sent' => ['boolean'],
-            'is_paid' => ['boolean'],
+            'status' => ['required', 'in:draft,sent,paid,overdue'],
             'client_id' => ['required', 'numeric', 'exists:clients,id']
         ]);
 
-        return Invoice::create([
-            'reference' => $request->reference,
-            'is_sent' => $request->is_sent,
-            'is_paid' => $request->is_paid,
+        $invoice = Invoice::create([
+            'status' => $request->status,
             'client_id' => $request->client_id,
         ]);
+        
+        // generate next invoice reference
+        $invoice->reference = str_pad($invoice->id + 1, 8, "0", STR_PAD_LEFT);
+
+        // save new transactions
+        foreach ($request->transactions as $transaction) {
+            $invoice->transactions()->save(new Transaction($transaction));
+        }
+
+        // save invoice
+        $invoice->save();
+
+        return new InvoiceResource($invoice);
     }
 
     /**
@@ -67,12 +76,23 @@ class InvoiceController extends Controller
     {
         $request->validate([
             'reference' => ['required', 'unique:invoices,id,$id', 'max:16'],
-            'is_sent' => ['boolean'],
-            'is_paid' => ['boolean'],
+            'status' => ['required', 'in:draft,sent,paid,overdue'],
             'client_id' => ['required', 'numeric', 'exists:clients,id']
         ]);
 
-        return Invoice::findOrFail($id)->update($request->all());
+        $invoice = Invoice::findOrFail($id);
+
+        foreach ($request->transactions as $transaction) {
+            if (isset($transaction['id'])) {
+                Transaction::findOrFail($transaction['id'])->update($transaction);
+            } else {
+                $invoice->transactions()->save(new Transaction($transaction));
+            }
+        }
+
+        $invoice->update($request->all());
+
+        return new InvoiceResource($invoice);
     }
 
     /**

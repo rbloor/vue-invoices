@@ -7,9 +7,8 @@ use Faker\Generator as Faker;
 
 $factory->define(Invoice::class, function (Faker $faker) {
     return [
-        'reference' => $faker->name,
-        'is_paid' => $faker->boolean(),
-        'is_sent' => $faker->boolean(),
+        'reference' => $faker->word(),
+        'status' => 'draft',
         'client_id' => $faker->randomElement(App\Client::pluck('id')->toArray()),
     ];
 });
