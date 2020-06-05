@@ -1,7 +1,7 @@
 <template>
-  <v-container class="fill-height" fluid>
-    <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="8">
+  <v-container>
+    <v-row>
+      <v-col>
         <v-card>
           <v-toolbar dark flat src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
             <v-toolbar-title>Client list</v-toolbar-title>
@@ -14,7 +14,10 @@
           <v-data-table :headers="headers" :items="items" :search="search">
             <template v-slot:item.actions="{ item }">
               <update-client-modal v-bind:item="item" v-on:update:item="updated"></update-client-modal>
-              <v-btn class="ml-2" icon><v-icon medium color="red" @click="deleted(item)">mdi-trash-can-outline</v-icon></v-btn>
+            </template>
+            <template v-slot:item.actions="{ item }">
+              <update-client-modal v-bind:item="item" v-on:update:item="updated"></update-client-modal>
+              <v-btn class="ml-2" small dark color="red" @click="deleted(item)">Delete</v-btn>
             </template>
           </v-data-table>
         </v-card>

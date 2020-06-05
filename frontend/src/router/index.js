@@ -8,6 +8,7 @@ import Dashboard from "../views/Dashboard.vue"
 
 import ClientList from "../views/ClientList.vue"
 import InvoiceList from "../views/InvoiceList.vue"
+import InvoiceShow from "../views/InvoiceShow.vue"
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,13 @@ const routes = [
     name: "InvoiceList",
     component: InvoiceList,
     meta: { authOnly: true }
+  },
+  {
+    path: "/invoices/:id",
+    name: "InvoiceShow",
+    component: InvoiceShow,
+    meta: { authOnly: true },
+    props: true
   }
 ]
 

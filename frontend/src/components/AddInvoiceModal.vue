@@ -31,14 +31,14 @@
             </template>
             <template v-slot:item.actions="{ item }">
               <update-transaction-modal :item="item" v-on:update:item="transactionUpdated($event, item)"></update-transaction-modal>
-              <v-btn class="ml-2" icon><v-icon medium color="red" @click="transactionDeleted(item)">mdi-trash-can-outline</v-icon></v-btn>
+              <v-btn class="ml-2 red" fab x-small dark><v-icon @click="transactionDeleted(item)">mdi-trash-can-outline</v-icon></v-btn>
             </template>
           </v-data-table>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn tile color="primary" @click="close"><v-icon left>mdi-close</v-icon> Close</v-btn>
-          <v-btn tile color="primary" @click="submit"> <v-icon left>mdi-content-save-outline</v-icon> Save</v-btn>
+          <v-btn text color="primary" @click="close">Close</v-btn>
+          <v-btn text color="primary" @click="submit">Save</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>

@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" max-width="600px" persistent @input="open">
     <template v-slot:activator="{ on }">
-      <v-btn tile v-on="on" color="primary"><v-icon left>mdi-plus</v-icon> Add</v-btn>
+      <v-btn fab small v-on="on" color="primary"><v-icon>mdi-plus</v-icon></v-btn>
     </template>
     <v-card>
       <v-form>
@@ -14,8 +14,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn tile color="primary" @click="close"><v-icon left>mdi-close</v-icon> Close</v-btn>
-          <v-btn tile color="primary" @click="submit"> <v-icon left>mdi-content-save-outline</v-icon> Save</v-btn>
+          <v-btn text color="primary" @click="close">Close</v-btn>
+          <v-btn text color="primary" @click="submit">Save</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
